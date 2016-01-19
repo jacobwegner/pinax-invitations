@@ -52,8 +52,28 @@ Running the Tests
 
         $ pip install detox
         $ detox
- 
-  
+
+
+Migrating from kaleo
+---------------------
+Previously, this app was named ``kaleo``.
+
+To update an existing installation of Kaleo to become ``pinax-invitations``
+
+* uninstall ``kaleo``
+* install ``pinax-invitations``
+* replace ``kaleo`` with ``pinax.invitations`` in your project's ``INSTALLED_APPS`` setting
+* update any imports within your project (e.g. ``kaleo.urls``) to point to pinax.invitations (e.g. ``pinax.invitations.urls``)
+* fake the initial migration of the ``invitations`` app::
+
+     $ python manage.py migrate invitations --fake
+* rename the table prefixes from ``kaleo_`` to ``invitations_``::
+
+     $ python manage.py dbshell
+     ALTER TABLE "kaleo_invitationstat" RENAME TO "invitations_invitationstat";
+     ALTER TABLE "kaleo_joininvitation" RENAME TO "invitations_joininvitation";
+
+
 Documentation
 --------------
 
